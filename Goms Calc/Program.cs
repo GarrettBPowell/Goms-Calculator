@@ -18,6 +18,7 @@ namespace Goms_Calc
 {
     class Program
     {
+        
         public static double calcWords(int num)
         {
             return num * .28;
@@ -45,6 +46,12 @@ namespace Goms_Calc
             int inputNum = 0;
             string input = "";
             string gomCommands = "";
+
+
+            Console.WriteLine("Welcome to the GOMS calculator. Enter a string of GOMS letters to calculate the time");
+            Console.WriteLine("Ex. H + C + K + K*10 + M + P\n\n\n");
+
+
             while (input.ToLower() != "exit")
             {
                 inputNum++;
