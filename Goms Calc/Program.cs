@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Linq;
-/*
-* Press a Key or button for an average non-skilled typist (K) = .28 seconds
-Point with a mouse (excluding click) OR scrolling (P) = 1.1 seconds
-Mouse Click (C) = .4 seconds
-Move Hands to keyboard from mouse (or vice-versa) (H) = .4 seconds
-Mentally prepare (M) = 1.35 seconds
+/* Author: Garrett Powell
+ * Email: gbp18a@acu.edu / garettbpowell@gmail.com
 */
+
+/* Goms steps:
+****************************************************************************
+* Press a Key or button for an average non-skilled typist (K) = .28 seconds*
+* Point with a mouse (excluding click) OR scrolling (P) = 1.1 seconds      *
+* Mouse Click (C) = .4 seconds                                             *
+* Move Hands to keyboard from mouse (or vice-versa) (H) = .4 seconds       *
+* Mentally prepare (M) = 1.35 seconds                                      *
+****************************************************************************
+*/
+
 namespace Goms_Calc
 {
     class Program
@@ -53,15 +60,6 @@ namespace Goms_Calc
                 // loop through input and calc values
                 foreach (string c in individual)
                 {
-                    // don't add + on first run
-                    if (first)
-                    {
-                        gomCommands += toNum(c);
-                        first = false;
-                    }
-                    else
-                        gomCommands += (" + " + toNum(c));
-
                     // calc nums for k with or without * num
                     if (c.ToLower().StartsWith("k"))
                     {
@@ -76,28 +74,42 @@ namespace Goms_Calc
                     // calc other letters
                     else
                     {
-                        switch (c.ToLower())
-                        {
-                            case "p":
-                                totalTime += 1.1;
-                                break;
-                            case "c":
-                                totalTime += 0.4;
-                                break;
-                            case "h":
-                                totalTime += 0.4;
-                                break;
-                            case "m":
-                                totalTime += 1.35;
-                                break;
-                            default:
-                                Console.WriteLine("Unrecognized command input");
-                                break;
+                        try {                      
+                            switch (c.ToLower())
+                            {
+                                case "p":
+                                    totalTime += 1.1;
+                                    break;
+                                case "c":
+                                    totalTime += 0.4;
+                                    break;
+                                case "h":
+                                    totalTime += 0.4;
+                                    break;
+                                case "m":
+                                    totalTime += 1.35;
+                                    break;
+                                default:
+                                    throw new Exception("Unrecognized command input");
+                            }
+                            // don't add + on first run
+                            if (first)
+                            {
+                                gomCommands += toNum(c);
+                                first = false;
+                            }
+                            else
+                                gomCommands += (" + " + toNum(c));
+
                         }
+                        catch (Exception e) {
+                            Console.WriteLine("Unrecognized command input\nPlease only use K, K*<int> P, C, H, and M.\nSee Goms steps at top of program for more details");
+                        }
+
                     }
                 }
 
-
+                // print results
                 Console.WriteLine(gomCommands);
                 Console.WriteLine("Total Time: {0}\n\n\n", totalTime);
             }
