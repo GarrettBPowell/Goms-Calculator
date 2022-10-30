@@ -42,10 +42,12 @@ namespace Goms_Calc
         }
         static void Main(string[] args)
         {
+            int inputNum = 0;
             string input = "";
             string gomCommands = "";
             while (input.ToLower() != "exit")
             {
+                inputNum++;
                 // get input, break if exit
                 Console.WriteLine("Enter the string of Interactions (type exit to stop): ");
                 input = Console.ReadLine();
@@ -61,8 +63,7 @@ namespace Goms_Calc
                 foreach (string c in individual)
                 {
                     // calc nums for k with or without * num
-                    if (c.ToLower().StartsWith("k"))
-                    {
+                    if (c.ToLower().StartsWith("k")) {
                         if (c.Length > 1)
                         {
                             int count = Int32.Parse(c.Split("*").Last());
@@ -70,10 +71,20 @@ namespace Goms_Calc
                         }
                         else
                             totalTime += 0.28;
+
+                        // don't add + on first run
+                        if (first)
+                        {
+                            gomCommands += toNum(c);
+                            first = false;
+                        }
+                        else
+                        {
+                            gomCommands += (" + " + toNum(c));
+                        }
                     }
                     // calc other letters
-                    else
-                    {
+                    else {
                         try {                      
                             switch (c.ToLower())
                             {
@@ -93,25 +104,30 @@ namespace Goms_Calc
                                     throw new Exception("Unrecognized command input");
                             }
                             // don't add + on first run
-                            if (first)
-                            {
+                            if (first) {
                                 gomCommands += toNum(c);
                                 first = false;
                             }
-                            else
+                            else {
                                 gomCommands += (" + " + toNum(c));
-
+                            }
                         }
+                        // catch for unknown commands ex. a e i o u
                         catch (Exception e) {
                             Console.WriteLine("Unrecognized command input\nPlease only use K, K*<int> P, C, H, and M.\nSee Goms steps at top of program for more details");
                         }
-
                     }
                 }
 
                 // print results
-                Console.WriteLine(gomCommands);
-                Console.WriteLine("Total Time: {0}\n\n\n", totalTime);
+                Console.WriteLine("[{0}]", inputNum);
+                Console.WriteLine("      {0}",gomCommands);
+                Console.WriteLine("      {0}: {1:F2}\n\n", "Total Time: ", totalTime);
+
+                // reset
+                if(input != "exit")
+                    input = "";
+                gomCommands = "";
             }
         }
     }
